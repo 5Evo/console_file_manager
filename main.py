@@ -1,11 +1,8 @@
-# Инициация баланса и истории
-'''
-
-'''
 import os
+import use_functions
 
 while True:
-    print('='*30)
+    print(use_functions.separate('-', 20))
     print('1. создать папку')
     print('2. удалить (файл/папку)')
     print('3. копировать (файл/папку)')
@@ -18,7 +15,7 @@ while True:
     print('10. мой банковский счет')
     print('11. смена рабочей директории')
     print('12. выход')
-    print('='*30)
+    print(use_functions.separate('-', 20))
     choice = input('Выберите пункт меню: ')
     if choice == '1':               # ________________создаем новую папку____________
         new_dir = input('Введите название папки: ')
@@ -98,8 +95,8 @@ while True:
         victory
 
     elif choice == '10':
-        import use_functions
-        use_functions
+        import bill
+        bill
 
     elif choice == '11':
         print('текущая директория: ', os.path.abspath(os.getcwd()))

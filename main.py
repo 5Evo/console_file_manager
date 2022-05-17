@@ -14,7 +14,8 @@ while True:
     print('9. играть в викторину')
     print('10. мой банковский счет')
     print('11. смена рабочей директории')
-    print('12. выход')
+    print('12. сохранить содержимое рабочей директории в файл')
+    print('13. выход')
     print(use_functions.separate('-', 20))
     choice = input('Выберите пункт меню: ')
     if choice == '1':               # ________________создаем новую папку____________
@@ -84,21 +85,21 @@ while True:
         import sys
         print('My OS is', sys.platform, '(', os.name, ')')
 
-    elif choice == '8':         # ВОТ ТУТ ВОТ ОСТАНОВИЛСИСЬ
+    elif choice == '8':         # создатель программы
         import getpass
         name = getpass.getuser()
         print(f'Разраотчик программы: {name}')
 
 
-    elif choice == '9':
+    elif choice == '9':                 # Программа Викторина
         import victory
         victory
 
-    elif choice == '10':
+    elif choice == '10':                # программа Счет
         import bill
         bill
 
-    elif choice == '11':
+    elif choice == '11':                # смена рабочей директории
         print('текущая директория: ', os.path.abspath(os.getcwd()))
         new_path = input('Введите путь для создания новой папки: ')
         if os.path.isdir(new_path):             #           if not os.path.isdir(new_dir):
@@ -110,7 +111,25 @@ while True:
             os.chdir(new_path)
             print('создали и перешли в новую директорию: ', os.getcwd())
 
-    elif choice == '12':
+    elif choice == '12':                # сохранение модержимого директории в файл
+        import json
+        FILE_NAME ='listdir.txt'
+        # подготовим список для сохраниения:
+        list_file = 'files: '
+        list_dir = ' dirs: '
+        with os.scandir(os.getcwd()) as listOfEntries:
+            for entry in listOfEntries:
+                if entry.is_file():
+                    list_file += entry.name + ' '
+                else:
+                    list_dir += entry.name + ' '
+        listdir_data = list_file + list_dir
+
+        with open(FILE_NAME, 'w') as f:
+            json.dump(listdir_data, f)
+
+
+    elif choice == '13':
         print("Досвидания, до новыйх встреч!")
         exit(0)
 

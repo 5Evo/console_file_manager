@@ -1,48 +1,34 @@
 # Инициация баланса и истории
-balance = 0
-history = []
+
+def separate(symb='*', num=20):
+    return symb * num
+
+def add_separators(f):
+    # inner - итоговая функция с новым поведение
+    def inner(*args, **kwargs):
+        # поведение до вызова
+        print('-' * 20)
+        result = f(*args, **kwargs)
+        # поведение после вызова
+        print('-' * 20)
+        return result
+
+    # возвращается функция inner с новым поведением
+    return inner
 
 def input_amount(question):
-    result = ''
-    while not result.isdigit():
-        result = input(question)
-        if not result.isdigit():
+    result = None
+    while result == None:
+        try:
+            result = int(input(question))
+        except ValueError:
             print(' - Некорректная сумма')
-    return int(result)
+    return result
 
-stay_in = True
-while stay_in:
-    print('1. пополнение счета')
-    print('2. покупка')
-    print('3. история покупок')
-    print('4. выход')
+@add_separators
+def print_menu(menu):
+    for menu_item in menu:
+        print(menu_item)
 
-    choice = input('Выберите пункт меню: ')
-    if choice == '1':
-        balance += int(input_amount('на сколько хотите пополнить баланс? '))
-        print(f'Ваш новый баланс: {balance} руб.')
 
-    elif choice == '2':
-        purchase = int(input_amount('Сколько Вы хотите потратить? '))
-        if purchase > balance:
-            print(f'Ваша покупка на {purchase} превысит ваш баланс {balance}. Вы не можете столько потратить')
-        else:
-            balance -= purchase
-            purchase_item = input('Введите название покупки: ')
-            history.append([purchase, purchase_item])
-            print(f'На вашем счету осталось {balance} руб.')
 
-    elif choice == '3':
-        print('********************* ')
-        print('Ваша история покупок: ')
-        for k, v in history:
-            print(k,v)
-        print('********************* ')
-
-    elif choice == '4':
-        print("Досвидания, до новыйх встреч!")
-        stay_in = False
-        # exit(0)
-
-    else:
-        print('Неверный пункт меню')

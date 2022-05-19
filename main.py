@@ -1,24 +1,25 @@
-# Инициация баланса и истории
-'''
-
-'''
 import os
+import use_functions
+
+menu_manager = ('1. создать папку',
+                '2. удалить (файл/папку)',
+                '3. копировать (файл/папку)',
+                '4. просмотр содержимого рабочей директории',
+                '5. посмотреть только папки',
+                '6. посмотреть только файлы',
+                '7. просмотр информации об операционной системе',
+                '8. создатель программы',
+                '9. играть в викторину',
+                '10. мой банковский счет',
+                '11. смена рабочей директории',
+                '12. сохранить содержимое рабочей директории в файл',
+                '13. выход')
 
 while True:
-    print('='*30)
-    print('1. создать папку')
-    print('2. удалить (файл/папку)')
-    print('3. копировать (файл/папку)')
-    print('4. просмотр содержимого рабочей директории')
-    print('5. посмотреть только папки')
-    print('6. посмотреть только файлы')
-    print('7. просмотр информации об операционной системе')
-    print('8. создатель программы')
-    print('9. играть в викторину')
-    print('10. мой банковский счет')
-    print('11. смена рабочей директории')
-    print('12. выход')
-    print('='*30)
+    #print(use_functions.separate('-', 20))
+    use_functions.print_menu(menu_manager)
+    #print(use_functions.separate('-', 20))
+
     choice = input('Выберите пункт меню: ')
     if choice == '1':               # ________________создаем новую папку____________
         new_dir = input('Введите название папки: ')
@@ -49,18 +50,9 @@ while True:
                 if os.path.isfile(src_file):
                     shutil.copyfile(src_file, dest_file)
                     # Проверим как скопировали:
-                    if os.path.exists(dest_file):
-                        print('Скопировали удачно!')
-                    else:
-                        print('Что-то пошло не так...')
-                # Скопируем папку:
+                    print('Скопировали удачно!') if os.path.exists(dest_file) else print('Что-то пошло не так...')
                 else:
-                    # папки dest_file не должно существовать:
-                    if not os.path.exists(dest_file):
-                        shutil.copytree(src_file, dest_file)
-                    # а если dest_file все-же существует:
-                    else:
-                        print('Такая папка уже существует, не могу скопировать')
+                    shutil.copytree(src_file, dest_file) if not os.path.exists(dest_file) else print('Такая папка уже существует, не могу скопировать')
             else:
                 print('попытка копирования в самого себя')
         else:                        # файла не существует:
@@ -87,25 +79,24 @@ while True:
         import sys
         print('My OS is', sys.platform, '(', os.name, ')')
 
-    elif choice == '8':         # ВОТ ТУТ ВОТ ОСТАНОВИЛСИСЬ
+    elif choice == '8':         # создатель программы
         import getpass
         name = getpass.getuser()
         print(f'Разраотчик программы: {name}')
 
 
-    elif choice == '9':
+    elif choice == '9':                 # Программа Викторина
         import victory
         victory
 
-    elif choice == '10':
-        import use_functions
-        use_functions
+    elif choice == '10':                # программа Счет
+        import bill
+        bill
 
-    elif choice == '11':
+    elif choice == '11':                # смена рабочей директории
         print('текущая директория: ', os.path.abspath(os.getcwd()))
         new_path = input('Введите путь для создания новой папки: ')
-        if os.path.isdir(new_path):             #           if not os.path.isdir(new_dir):
-                                                #           os.mkdir(new_dir)
+        if os.path.isdir(new_path):
             os.chdir(new_path)
             print('перешли в существующую директорию: ', os.getcwd())
         else:
@@ -113,7 +104,25 @@ while True:
             os.chdir(new_path)
             print('создали и перешли в новую директорию: ', os.getcwd())
 
-    elif choice == '12':
+    elif choice == '12':                # сохранение модержимого директории в файл
+        import json
+        FILE_NAME ='listdir.txt'
+        # подготовим список для сохраниения:
+        list_file = 'files: '
+        list_dir = ' dirs: '
+        with os.scandir(os.getcwd()) as listOfEntries:
+            for entry in listOfEntries:
+                if entry.is_file():
+                    list_file += entry.name + ' '
+                else:
+                    list_dir += entry.name + ' '
+        listdir_data = list_file + list_dir
+
+        with open(FILE_NAME, 'w') as f:
+            json.dump(listdir_data, f)
+
+
+    elif choice == '13':
         print("Досвидания, до новыйх встреч!")
         exit(0)
 

@@ -35,7 +35,6 @@ num_quest = 5   # количество вопросов в викторине
 again = '1'
 while again == '1':
     question_vic = random.sample(dob_tuple, num_quest)      # выберем случайных персон для викторины
-    #print(question_vic)
     goods = 0
     for person in question_vic:
         answer = input(f'Введите дату рождения "{person[0]}" в формате 01.01.1999: ')

@@ -1,22 +1,25 @@
 import os
 import use_functions
 
+menu_manager = ('1. создать папку',
+                '2. удалить (файл/папку)',
+                '3. копировать (файл/папку)',
+                '4. просмотр содержимого рабочей директории',
+                '5. посмотреть только папки',
+                '6. посмотреть только файлы',
+                '7. просмотр информации об операционной системе',
+                '8. создатель программы',
+                '9. играть в викторину',
+                '10. мой банковский счет',
+                '11. смена рабочей директории',
+                '12. сохранить содержимое рабочей директории в файл',
+                '13. выход')
+
 while True:
-    print(use_functions.separate('-', 20))
-    print('1. создать папку')
-    print('2. удалить (файл/папку)')
-    print('3. копировать (файл/папку)')
-    print('4. просмотр содержимого рабочей директории')
-    print('5. посмотреть только папки')
-    print('6. посмотреть только файлы')
-    print('7. просмотр информации об операционной системе')
-    print('8. создатель программы')
-    print('9. играть в викторину')
-    print('10. мой банковский счет')
-    print('11. смена рабочей директории')
-    print('12. сохранить содержимое рабочей директории в файл')
-    print('13. выход')
-    print(use_functions.separate('-', 20))
+    #print(use_functions.separate('-', 20))
+    use_functions.print_menu(menu_manager)
+    #print(use_functions.separate('-', 20))
+
     choice = input('Выберите пункт меню: ')
     if choice == '1':               # ________________создаем новую папку____________
         new_dir = input('Введите название папки: ')
@@ -47,18 +50,9 @@ while True:
                 if os.path.isfile(src_file):
                     shutil.copyfile(src_file, dest_file)
                     # Проверим как скопировали:
-                    if os.path.exists(dest_file):
-                        print('Скопировали удачно!')
-                    else:
-                        print('Что-то пошло не так...')
-                # Скопируем папку:
+                    print('Скопировали удачно!') if os.path.exists(dest_file) else print('Что-то пошло не так...')
                 else:
-                    # папки dest_file не должно существовать:
-                    if not os.path.exists(dest_file):
-                        shutil.copytree(src_file, dest_file)
-                    # а если dest_file все-же существует:
-                    else:
-                        print('Такая папка уже существует, не могу скопировать')
+                    shutil.copytree(src_file, dest_file) if not os.path.exists(dest_file) else print('Такая папка уже существует, не могу скопировать')
             else:
                 print('попытка копирования в самого себя')
         else:                        # файла не существует:
@@ -102,8 +96,7 @@ while True:
     elif choice == '11':                # смена рабочей директории
         print('текущая директория: ', os.path.abspath(os.getcwd()))
         new_path = input('Введите путь для создания новой папки: ')
-        if os.path.isdir(new_path):             #           if not os.path.isdir(new_dir):
-                                                #           os.mkdir(new_dir)
+        if os.path.isdir(new_path):
             os.chdir(new_path)
             print('перешли в существующую директорию: ', os.getcwd())
         else:

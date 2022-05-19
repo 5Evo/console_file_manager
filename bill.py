@@ -21,8 +21,6 @@ def load_account():
             load_data = json.load(f)
             load_balance = load_data[0]
             load_history = load_data[1]
-            #print(f'Прочитанные данные: {load_data}, {type(load_data)} ')
-            #print(f'Баланс = {load_balance}, {type(load_balance)}\nИстория покупок: {load_history}, {type(load_history)}')
     else:
         print('Файла с данными не существует, начнем все с самого начала.')
         load_balance = 0
@@ -41,14 +39,15 @@ def save_account():
 
 balance, history = load_account()
 
-#print(f'Перед старом: ,баланс: {balance}, {type(balance)}, История покупок: {history}, {type(history)} ')
+menu_bill = ('0. Узнать баланс',
+             '1. пополнение счета',
+             '2. покупка',
+             '3. история покупок',
+             '4. выход'
+             )
 stay_in = True
 while stay_in:
-    print('0. Узнать баланс')
-    print('1. пополнение счета')
-    print('2. покупка')
-    print('3. история покупок')
-    print('4. выход')
+    use_functions.print_menu(menu_bill)
 
     choice = input('Выберите пункт меню: ')
     if choice == '0':
